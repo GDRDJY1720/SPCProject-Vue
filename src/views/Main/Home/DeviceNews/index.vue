@@ -13,8 +13,8 @@
         :data="tableData" 
         height="350" 
         border 
-        style="width: 100%; font-size: 12px" 
-        v-loadmore="loadMore">
+        style="width: 100%; font-size: 12px"
+        v-el-table-infinite-scroll="loadMore">
           <el-table-column label="设备名" show-overflow-tooltip>
             <template slot-scope="scope">
               <h3>{{scope.row.device_name}}</h3>
@@ -25,7 +25,7 @@
           <el-table-column prop="device_TotalOutput" label="总运行次数" width="90"></el-table-column>
           <el-table-column prop="device_TotalRunTime" label="总运行时间" width="90"></el-table-column>
           <div slot="append" style="text-align: center">
-            正在加载数据，请稍后……
+            {{ loading ? "正在加载数据，请稍后……": "数据已全部加载" }}
           </div>
         </el-table>
       </div>
@@ -54,11 +54,19 @@
 </template>
 
 <script>
+import elTableInfiniteScroll from 'el-table-infinite-scroll';
 import pie from '@/components/SpcPie'
 import chart from '@/components/SpcHomeChart'
 export default {
+  directives: {
+    'el-table-infinite-scroll': elTableInfiniteScroll
+  },
   data () {
     return {
+      loading: true,
+      loadMoreFlag: true,
+      loadPage: 2,
+      pageSum: 0,
       devicePieData: [],
       tableData: [],
       alarmChartData: [{
@@ -85,7 +93,32 @@ export default {
   },
   methods: {
     loadMore () {
-      console.log(2)
+      if (this.loadMoreFlag) {
+        if (this.pageSum === 0) {
+          return
+        }
+        this.loadMoreFlag = false
+
+        if (this.loadPage > this.pageSum) {
+          this.loading = false
+        } else {
+          this.axios.get('/spc/homepage/info/table/', {
+            params: {
+              token: localStorage.getItem('token'),
+              page: this.loadPage++
+            }
+          }).then(res => {
+            this.loadMoreFlag = true
+            if (res.data.code === 1000) {
+              this.tableData = [...this.tableData, ...res.data.data]
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          }).catch(err => {
+            this.axiosCatch(err)
+          })
+        }
+      }
     },
     setPieData (data) {
       var statusTransform = {
@@ -138,6 +171,7 @@ export default {
       params: data
     }).then(res => {
       if (res.data.code === 1000) {
+        this.pageSum = Math.ceil(res.data.data.count / 10)
         this.setPieData(res.data.data.device)
         this.tableData = res.data.data.table
         this.setAlarmChartData(res.data.data.log.alarm)
@@ -159,6 +193,7 @@ export default {
   height: 100%;
   width: 100%;
   overflow: scroll;
+  -ms-overflow: scroll;
 
   &::-webkit-scrollbar{
     display: none;

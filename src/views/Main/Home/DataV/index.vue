@@ -162,7 +162,6 @@ export default {
           limit: 5
         }
       }).then(res => {
-        console.log(1)
         this.loading = false
         if (res.data.code === 1000) {
           this.count = res.data.data.count
