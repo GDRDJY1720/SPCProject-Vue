@@ -1,19 +1,17 @@
 <template>
   <div class="spc-main">
     <el-container style="height: 100%">
-      <el-header>
-        <div>spc system</div>
-        <!-- <div class="demo-type">
-          <el-avatar :size="50" src="https://empty" @error="errorHandler">
-            <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
-          </el-avatar>
-        </div> -->
+      <el-header style="padding-left: 0">
+        <div class="demo-type">
+          <!-- <el-image style="width: 200px; height: 100%" src="require('../../assets/拭擦.jpg')"></el-image> -->
+          <img src="../../assets/拭擦.jpg" style="width: 200px; height: 100%">
+        </div>
         <div>
           <el-dropdown style="margin-right: 10px; line-height: 20px" @command="handleCommand">
             <el-avatar :size="50" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" class="el-dropdown-link">
             </el-avatar>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item icon="el-icon-plus" command="userInfo">个人信息</el-dropdown-item>
+              <!-- <el-dropdown-item icon="el-icon-plus" command="userInfo">个人信息</el-dropdown-item> -->
               <el-dropdown-item icon="el-icon-circle-plus" command="logout">账号注销</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -168,4 +166,5 @@ export default {
     width: 200px;
     min-height: 400px;
   }
+
 </style>
