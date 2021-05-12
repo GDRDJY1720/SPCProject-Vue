@@ -9,10 +9,10 @@
         :key="devicePieData.length"/>
       </div>
       <div class="spc-news-info">
-        <el-table 
-        :data="tableData" 
-        height="350" 
-        border 
+        <el-table
+        :data="tableData"
+        height="350"
+        border
         style="width: 100%; font-size: 12px"
         v-el-table-infinite-scroll="loadMore">
           <el-table-column label="设备名" show-overflow-tooltip>
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import elTableInfiniteScroll from 'el-table-infinite-scroll';
+import elTableInfiniteScroll from 'el-table-infinite-scroll'
 import pie from '@/components/SpcPie'
 import chart from '@/components/SpcHomeChart'
 export default {

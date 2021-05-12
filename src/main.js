@@ -13,13 +13,18 @@ import VueQriously from 'vue-qriously'
 
 import dataV from '@jiaminghi/data-view'
 
-import * as echarts  from 'echarts'
+import * as echarts from 'echarts'
 import '@/common/echartsMap/china'
 
-Vue.prototype.$echarts = echarts
+// 复制功能
+import VueClipboard from 'vue-clipboard2'
 
 // 适配flex
 import '@/common/flexible.js'
+
+Vue.prototype.$echarts = echarts
+
+Vue.use(VueClipboard)
 
 Vue.use(dataV)
 
@@ -29,7 +34,6 @@ Vue.config.productionTip = false
 Vue.prototype.axios = axios
 // Vue.use(GridManager)
 Vue.use(ElementUI)
-
 
 new Vue({
   router,

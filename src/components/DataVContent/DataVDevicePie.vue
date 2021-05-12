@@ -2,7 +2,7 @@
 	<div class="bottom-left-chart-1">
 		<div>
 			<!-- <svg-icon icon-class="alanum" style="color:#5cd9e8"></svg-icon> -->
-			<span>设备总量及状态统计</span> 
+			<span>设备总量及状态统计</span>
 		</div>
     <div style="margin-top: 20px">
       <span>设备总量: </span>
@@ -16,44 +16,44 @@
 </template>
 
 <script>
-	export default {
-    props: {
-      data: {
-        type: Array
-      },
-      count: {
-        type: Number,
-        default: 0
-      }
+export default {
+  props: {
+    data: {
+      type: Array
     },
-		data() {
-			return {
-        devcieCount: 0,
-        devicePieData: [],
-        option: {
-          series: [
-            {
-              type: 'pie',
-              data: this.data,
-              radius: ['40%', '50%'],
-              insideLabel: {
-                show: false,
-                formatter: '{name}:\n{percent}%'
-              },
-              outsideLabel: {
-                show: true,
-                formatter: '{name}-{value}',
-                style: {
-                  fontSize: 16
-                }
+    count: {
+      type: Number,
+      default: 0
+    }
+  },
+  data () {
+    return {
+      devcieCount: 0,
+      devicePieData: [],
+      option: {
+        series: [
+          {
+            type: 'pie',
+            data: this.data,
+            radius: ['40%', '50%'],
+            insideLabel: {
+              show: false,
+              formatter: '{name}:\n{percent}%'
+            },
+            outsideLabel: {
+              show: true,
+              formatter: '{name}-{value}',
+              style: {
+                fontSize: 16
               }
             }
-          ],
-          color: ['#00c0ff', '#3de7c9', '#7c74ec', '#f1f34b', '#72d0ac',] 
-        }
+          }
+        ],
+        color: ['#00c0ff', '#3de7c9', '#7c74ec', '#f1f34b', '#72d0ac']
       }
     }
-	}
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -33,8 +33,8 @@
             <td>
               <el-popover
               placement="top-start"
-              title="链接信息"
               width="312">
+                <el-button size="mini" type="text" v-clipboard:copy="testCopy" v-clipboard:success="onCopy">一键复制</el-button>
                 <table class="gridtable info-font-10">
                   <tr>
                     <th>设备名称</th>
@@ -104,7 +104,23 @@ export default {
       }
     }
   },
+  computed: {
+    testCopy () {
+      return `
+{
+  "ProductKey": ${this.data[0].from_product.productkey},
+  "DeviceName": ${this.data[0].device_name},
+  "DeviceSecret": ${this.data[0].device_secret}
+}`
+    }
+  },
   methods: {
+    onCopy (e) {
+      this.$message({
+        message: '复制成功！',
+        type: 'success'
+      })
+    },
     handleClickEdit (clickTypy) {
       this.dialogEditVisible = true
       this.form.ident = clickTypy

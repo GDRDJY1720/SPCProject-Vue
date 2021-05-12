@@ -45,9 +45,9 @@ export default {
     this.setNowTime()
   },
   methods: {
-	goBack () {
+    goBack () {
 	  this.$router.push('/main/home/news')
-	},
+    },
     setNowTime () {
       this.date = getTime()
       this.week = getWeekDate()

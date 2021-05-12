@@ -98,25 +98,25 @@ export default {
     },
     setProductNum (data) {
       var tmp = []
-      for (let i in data) {
+      for (const i in data) {
         tmp.push({ name: data[i].productname, value: data[i].count })
       }
       return tmp
     },
     setMapData (data) {
       var tmp = [
-        {name: '北京',value: 0}, {name: '天津',value: 0}, {name: '上海',value: 0}, {name: '重庆',value: 0},
-        {name: '河北',value: 0}, {name: '河南',value: 0}, {name: '云南',value: 0}, {name: '辽宁',value: 0},
-        {name: '黑龙江',value: 0}, {name: '湖南',value: 0}, {name: '安徽',value: 0}, {name: '山东',value: 0},
-        {name: '新疆',value: 0}, {name: '江苏',value: 0}, {name: '浙江',value: 0}, {name: '江西',value: 0},
-        {name: '湖北',value: 0}, {name: '广西',value: 0}, {name: '甘肃',value: 0}, {name: '山西',value: 0},
-        {name: '内蒙古',value: 0}, {name: '陕西',value: 0}, {name: '吉林',value: 0}, {name: '福建',value: 0},
-        {name: '贵州',value: 0}, {name: '广东',value: 0}, {name: '青海',value: 0}, {name: '西藏',value: 0},
-        {name: '四川',value: 0}, {name: '宁夏',value: 0}, {name: '海南',value: 0}, {name: '台湾',value: 0},
-        {name: '香港',value: 0}, {name: '澳门',value: 0}, {name: '南海诸岛',value: 0}
+        { name: '北京', value: 0 }, { name: '天津', value: 0 }, { name: '上海', value: 0 }, { name: '重庆', value: 0 },
+        { name: '河北', value: 0 }, { name: '河南', value: 0 }, { name: '云南', value: 0 }, { name: '辽宁', value: 0 },
+        { name: '黑龙江', value: 0 }, { name: '湖南', value: 0 }, { name: '安徽', value: 0 }, { name: '山东', value: 0 },
+        { name: '新疆', value: 0 }, { name: '江苏', value: 0 }, { name: '浙江', value: 0 }, { name: '江西', value: 0 },
+        { name: '湖北', value: 0 }, { name: '广西', value: 0 }, { name: '甘肃', value: 0 }, { name: '山西', value: 0 },
+        { name: '内蒙古', value: 0 }, { name: '陕西', value: 0 }, { name: '吉林', value: 0 }, { name: '福建', value: 0 },
+        { name: '贵州', value: 0 }, { name: '广东', value: 0 }, { name: '青海', value: 0 }, { name: '西藏', value: 0 },
+        { name: '四川', value: 0 }, { name: '宁夏', value: 0 }, { name: '海南', value: 0 }, { name: '台湾', value: 0 },
+        { name: '香港', value: 0 }, { name: '澳门', value: 0 }, { name: '南海诸岛', value: 0 }
       ]
 
-      for (let i in data) {
+      for (const i in data) {
         tmp.forEach(item => {
           if (item.name === data[i].deviceProvince) {
             item.value = data[i].count
@@ -130,7 +130,7 @@ export default {
         category: [],
         data: []
       }
-      for (let i in data) {
+      for (const i in data) {
         tmp.category.push(i)
         tmp.data.push(data[i])
       }
@@ -214,7 +214,7 @@ export default {
 			width: 100%;
 			height: 80px;
 			flex: 2;
-			
+
 		}
 
 		.content {

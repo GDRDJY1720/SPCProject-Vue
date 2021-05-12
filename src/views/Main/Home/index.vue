@@ -68,7 +68,7 @@ export default {
       this.activeName = '1'
     } else if (nowUrl === '/main/home/datav') {
       this.activeName = '2'
-    }else {
+    } else {
       this.activeName = '3'
     }
   },
@@ -80,7 +80,7 @@ export default {
       this.activeName = '1'
     } else if (nowUrl === '/main/home/datav') {
       this.activeName = '2'
-    }else {
+    } else {
       this.activeName = '3'
     }
   }
