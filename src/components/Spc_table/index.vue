@@ -158,7 +158,7 @@ export default {
           } else {
             const data = {
               token: localStorage.getItem('token'),
-              updateIdent: this.form.ident,
+              sign: this.form.ident,
               data: this.form.label
             }
             this.axiosSend(data)
