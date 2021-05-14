@@ -106,11 +106,10 @@ export default {
   },
   computed: {
     testCopy () {
-      return `
-{
-  "ProductKey": ${this.data[0].from_product.productkey},
-  "DeviceName": ${this.data[0].device_name},
-  "DeviceSecret": ${this.data[0].device_secret}
+      return `{
+  "ProductKey": "${this.data[0].from_product.productkey}",
+  "DeviceName": "${this.data[0].device_name}",
+  "DeviceSecret": "${this.data[0].device_secret}"
 }`
     }
   },
