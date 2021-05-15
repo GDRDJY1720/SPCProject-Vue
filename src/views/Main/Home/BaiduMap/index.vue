@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%">
-    <baidu-map class="bm-view" ak="kLpwGtvGNbbezemSXCMbExMIqtNz9kSr" :zoom="map.zoom" :center="{lng: map.center.lng, lat: map.center.lat}"
+    <baidu-map class="bm-view" ak="bWeUgkoUsdWVc2ZzVdHfxdfYXxmOViZc" :zoom="map.zoom" :center="{lng: map.center.lng, lat: map.center.lat}"
  :scroll-wheel-zoom="true">
     <!--比例尺控件-->
     <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
