@@ -73,11 +73,21 @@
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
             <el-button @click="handleClickLock(scope.$index, scope.row)" type="text" size="small">
-              <i class="el-icon-lock" v-if="scope.row.deviceOnLock"></i>
-              <i class="el-icon-unlock" v-else></i>
+              <el-tooltip class="item" effect="dark" :content="`${scope.row.deviceOnLock ? '解锁': '锁定'}设备`" placement="top">
+                <i class="el-icon-lock" v-if="scope.row.deviceOnLock"></i>
+                <i class="el-icon-unlock" v-else></i>
+              </el-tooltip>
             </el-button>
-            <el-button @click="handleClickView(scope.row)" type="text" size="small">查看</el-button>
-            <el-button @click="handleClickDelete(scope.row)" type="text" size="small" v-if="privilege">删除</el-button>
+            <el-button @click="handleClickView(scope.row)" type="text" size="small">
+              <el-tooltip class="item" effect="dark" content="查看设备详情" placement="top">
+                <i class="el-icon-view"></i>
+              </el-tooltip>
+            </el-button>
+            <el-button @click="handleClickDelete(scope.row)" type="text" size="small" v-if="privilege">
+              <el-tooltip class="item" effect="dark" content="删除设备" placement="top">
+                <i class="el-icon-delete"></i>
+              </el-tooltip>
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
