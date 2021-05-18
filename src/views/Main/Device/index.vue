@@ -72,6 +72,10 @@
         <el-table-column prop="status.last_line" label="最后上线时间" width="165"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
+            <el-button @click="handleClickLock(scope.$index, scope.row)" type="text" size="small">
+              <i class="el-icon-lock" v-if="scope.row.deviceOnLock"></i>
+              <i class="el-icon-unlock" v-else></i>
+            </el-button>
             <el-button @click="handleClickView(scope.row)" type="text" size="small">查看</el-button>
             <el-button @click="handleClickDelete(scope.row)" type="text" size="small" v-if="privilege">删除</el-button>
           </template>
@@ -117,6 +121,9 @@ export default {
         ],
         productID: [
           { required: true, message: '请选择产品类型', trigger: 'blur' }
+        ],
+        date1: [
+          { required: true, message: '请选择输入锁定时间', trigger: 'blur' }
         ]
       }
     }
@@ -182,6 +189,38 @@ export default {
         deviceName: '',
         product: ''
       }
+    },
+    handleClickLock (ind, val) {
+      this.$confirm(`此操作将${val.deviceOnLock ? '解锁': '锁定'}该设备, 是否继续?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.axios.post('/spc/device/lock/', {
+          token: localStorage.getItem('token'),
+          data: val.id,
+          lockFlag: val.deviceOnLock ? 0: 1
+        }).then(res => {
+          if (res.data.code === 1000) {
+            this.$message({
+              type: 'success',
+              message: `${val.deviceOnLock ? '解锁': '锁定'}成功！`
+            })
+            var tmp = this.deviceTableData
+            tmp[ind].deviceOnLock = !tmp[ind].deviceOnLock
+            this.$store.commit('deviceDataChange', tmp)
+          } else {
+            this.$message(res.data.msg)
+          }
+        }).catch(err => {
+          this.axiosErr(err)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: `已取消${val.deviceOnLock ? '解锁': '锁定'}`
+        })
+      })
     },
     handleClickView (row) {
       this.$router.push({ name: 'detail', params: { id: row.id } })
