@@ -214,7 +214,6 @@ export default {
 			width: 100%;
 			height: 80px;
 			flex: 2;
-
 		}
 
 		.content {
