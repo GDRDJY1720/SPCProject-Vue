@@ -22,6 +22,7 @@
               type="password"
               placeholder="请输入密码"
               v-model="ruleForm.password"
+              show-password
             >
               <i slot="prepend" class="el-icon-lock" />
             </el-input>
