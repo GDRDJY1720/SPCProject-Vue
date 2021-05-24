@@ -10,6 +10,8 @@
           <el-select v-model="formInline.region" placeholder="查询类型" @change="selectChange">
             <el-option label="设备名称" value="deviceName"></el-option>
             <el-option label="产品列表" value="productID"></el-option>
+            <el-option label="设备编号" value="deviceSecret"></el-option>
+            <el-option label="网关编号" value="moduleSecret"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item v-if="formInline.region === 'deviceName'" prop="deviceName">
@@ -24,6 +26,12 @@
               :value="item.value">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item v-if="formInline.region === 'deviceSecret'" prop="deviceSecret">
+          <el-input v-model="formInline.deviceSecret" placeholder="请输入设备编号"></el-input>
+        </el-form-item>
+        <el-form-item v-if="formInline.region === 'moduleSecret'" prop="moduleSecret">
+          <el-input v-model="formInline.moduleSecret" placeholder="请输入网关编号"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="querySubmit('ruleForm')">查询</el-button>
@@ -73,18 +81,18 @@
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
             <el-button @click="handleClickLock(scope.$index, scope.row)" type="text" size="small">
-              <el-tooltip class="item" effect="dark" :content="`${scope.row.deviceOnLock ? '解锁': '锁定'}设备`" placement="top">
+              <el-tooltip class="item icon-text" effect="dark" :content="`${scope.row.deviceOnLock ? '解锁': '锁定'}设备`" placement="top">
                 <i class="el-icon-lock" v-if="scope.row.deviceOnLock"></i>
                 <i class="el-icon-unlock" v-else></i>
               </el-tooltip>
             </el-button>
             <el-button @click="handleClickView(scope.row)" type="text" size="small">
-              <el-tooltip class="item" effect="dark" content="查看设备详情" placement="top">
+              <el-tooltip class="item icon-text" effect="dark" content="查看设备详情" placement="top">
                 <i class="el-icon-view"></i>
               </el-tooltip>
             </el-button>
-            <el-button @click="handleClickDelete(scope.row)" type="text" size="small" v-if="privilege">
-              <el-tooltip class="item" effect="dark" content="删除设备" placement="top">
+            <el-button @click="handleClickDelete(scope.row)" type="text" size="small" v-if="privilege === '1'">
+              <el-tooltip class="item icon-text" effect="dark" content="删除设备" placement="top">
                 <i class="el-icon-delete"></i>
               </el-tooltip>
             </el-button>
@@ -108,7 +116,7 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      privilege: true,
+      privilege: '',
       productArr: [],
       productErr: false,
       pagesize: 10,
@@ -123,7 +131,9 @@ export default {
       formInline: {
         region: 'deviceName',
         deviceName: '',
-        productID: ''
+        productID: '',
+        deviceSecret: '',
+        moduleSecret: ''
       },
       rules: {
         deviceName: [
@@ -132,8 +142,11 @@ export default {
         productID: [
           { required: true, message: '请选择产品类型', trigger: 'blur' }
         ],
-        date1: [
-          { required: true, message: '请选择输入锁定时间', trigger: 'blur' }
+        deviceSecret: [
+          { required: true, message: '请输入设备编号', trigger: 'blur' }
+        ],
+        moduleSecret: [
+          { required: true, message: '请输入网关编号', trigger: 'blur' }
         ]
       }
     }
@@ -363,9 +376,7 @@ export default {
     }
   },
   mounted () {
-    if (localStorage.getItem('privilege') === '3') {
-      this.privilege = false
-    }
+    this.privilege = localStorage.getItem('privilege')
 
     this.formInline = this.$store.state.formInline
     if (!this.$store.state.productInfoData.length) {
@@ -430,5 +441,9 @@ export default {
 }
 .el-pagination{
   margin-top: 10px;
+}
+
+.icon-text{
+  font-size: 16px;
 }
 </style>
