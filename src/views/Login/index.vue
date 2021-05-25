@@ -13,7 +13,7 @@
           class="demo-ruleForm"
         >
           <el-form-item prop="username">
-            <el-input v-model="ruleForm.username" placeholder="请输入手机号或邮箱">
+            <el-input v-model="ruleForm.username" placeholder="请输入用户名/手机号/邮箱">
               <i slot="prepend" class="el-icon-s-custom" />
             </el-input>
           </el-form-item>
@@ -119,6 +119,7 @@ export default {
               localStorage.setItem("username", res.data.data.user_name);
               this.$router.push(this.$store.state.nowUrl);
             } else {
+              this.refreshCode();
               this.$message(res.data.msg);
             }
           }).catch((err) => {
