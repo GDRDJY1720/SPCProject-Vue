@@ -23,6 +23,7 @@
               placeholder="请输入密码"
               v-model="ruleForm.password"
               show-password
+              @keyup.enter.native="doLogin()"
             >
               <i slot="prepend" class="el-icon-lock" />
             </el-input>
