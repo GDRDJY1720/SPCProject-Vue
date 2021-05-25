@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="overflow: hidden">
     <div style="display: flex; justify-content: center; margin-top: 150px">
       <el-card style="width: 400px; text-align: center">
         <div slot="header" class="clearfix">
@@ -12,12 +12,12 @@
           label-width="0px"
           class="demo-ruleForm"
         >
-          <el-form-item prop="username">
+          <el-form-item prop="username" :error="ruleForm.usernameErr">
             <el-input v-model="ruleForm.username" placeholder="请输入用户名/手机号/邮箱">
               <i slot="prepend" class="el-icon-s-custom" />
             </el-input>
           </el-form-item>
-          <el-form-item prop="password">
+          <el-form-item prop="password" :error="ruleForm.passwordErr">
             <el-input
               type="password"
               placeholder="请输入密码"
@@ -92,12 +92,16 @@ export default {
         username: "",
         password: "",
         code: "",
+        usernameErr: "",
+        passwordErr: ""
       },
       rules: {
         username: [
           { required: true, message: "手机号或邮箱不能为空", trigger: "blur" },
         ],
-        password: [{ required: true, message: "密码不能为空", trigger: "blur" }],
+        password: [
+          { required: true, message: "密码不能为空", trigger: "blur" }
+        ],
         code: [
           { validator: verCode, trigger: 'blur' }
         ],
@@ -120,7 +124,11 @@ export default {
               this.$router.push(this.$store.state.nowUrl);
             } else {
               this.refreshCode();
-              this.$message(res.data.msg);
+              if (res.data.code === 1001) {
+                this.ruleForm.usernameErr = res.data.msg;
+              } else if (res.data.code === 1002) {
+                this.ruleForm.passwordErr = res.data.msg;
+              }
             }
           }).catch((err) => {
             this.axiosCatch(err);
@@ -149,13 +157,13 @@ export default {
     axiosCatch (err) {
       if (err.response) {
         if (err.response.status === 500) {
-          this.$message("网络错误");
+          this.$message.error("网络错误");
         } else if (err.response.status === 403) {
           if (err.response.data.code === "1001") {
-            this.$message(err.response.data.msg);
+            this.$message.error(err.response.data.msg);
             this.$router.push("/login");
           } else {
-            this.$message("未知错误");
+            this.$message.error("未知错误");
           }
         }
       } else if (err.request) {
