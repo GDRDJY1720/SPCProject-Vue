@@ -113,16 +113,16 @@ export default {
       },
       rules: {
         customer_code: [
-          { required: true, message: '请输入1', trigger: 'blur' }
+          { required: true, message: '请输入客户代码', trigger: 'blur' }
         ],
         sell_time: [
-          { required: true, message: '请输入2', trigger: 'blur' }
+          { required: true, message: '请输入销售时间', trigger: 'blur' }
         ],
         sell_code: [
-          { required: true, message: '请输入3', trigger: 'blur' }
+          { required: true, message: '请输入销售订单号', trigger: 'blur' }
         ],
         sell_site: [
-          { required: true, message: '请输入4', trigger: 'blur' }
+          { required: true, message: '请输入销售地点', trigger: 'blur' }
         ],
       },
       quertSaleInfoFlag: false,

@@ -53,9 +53,9 @@
             </div>
           </el-form-item>
         </el-form>
-        <div class="registered">
+        <!-- <div class="registered">
           <el-button class="registered-btn" type="text">立即注册</el-button>
-        </div>
+        </div> -->
         <div>
           <p style="font-size: 12px; line-height: 30px; color: #eaeaea">
             Tips : 请输入账号密码登陆
