@@ -15,8 +15,8 @@
               </el-popover>
             </th>
             <td>{{data[0].nick_name}} <el-button slot="reference" size="mini" type="text" @click="handleClickEdit('nick_name')">编辑</el-button></td>
-            <th>拥有者</th>
-            <td>{{ data[0].from_user }}</td>
+            <!-- <th>拥有者</th>
+            <td>{{ data[0].from_user }}</td> -->
         </tr>
         <tr>
             <th>所属产品</th>

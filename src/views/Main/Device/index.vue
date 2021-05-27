@@ -67,6 +67,7 @@
       <el-table
       v-loading="loading"
       :data="deviceTableData"
+      :row-class-name="rowClassName"
       stripe
       border
       height="100%"
@@ -75,7 +76,7 @@
         <el-table-column prop="device_name" label="设备名"></el-table-column>
         <el-table-column prop="nick_name" label="设备备注名称"></el-table-column>
         <el-table-column prop="from_product.productname" label="所属产品"></el-table-column>
-        <el-table-column prop="from_user" label="所属人" width="86"></el-table-column>
+        <!-- <el-table-column prop="from_user" label="所属人" width="86"></el-table-column> -->
         <el-table-column prop="status.status" label="设备状态" width="79"></el-table-column>
         <el-table-column prop="status.last_line" label="最后上线时间" width="165"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
@@ -160,6 +161,11 @@ export default {
       if (lastUrl.indexOf('/main/device')) {
         this.$router.push(lastUrl)
       }
+    },
+    //获取当前的行数
+    rowClassName({row, rowIndex}) {
+      //把每一行的索引放进row
+      row.index = rowIndex;
     },
     querySubmit (formName) {
       this.$refs[formName].validate((valid) => {

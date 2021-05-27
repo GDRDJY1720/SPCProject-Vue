@@ -22,6 +22,10 @@ import VueClipboard from 'vue-clipboard2'
 // 适配flex
 import '@/common/flexible.js'
 
+import Moment from 'moment'
+
+Vue.prototype.Moment = Moment
+
 Vue.prototype.$echarts = echarts
 
 Vue.use(VueClipboard)
