@@ -6,7 +6,8 @@
         <br/>
         <small style="color: #777777; font-size: 16px; ">
           {{ nickName }}
-          <el-button slot="reference" size="mini" type="text" @click="handleClickEdit">编辑</el-button>  
+          <el-button slot="reference" size="mini" type="text" 
+          @click="handleClickEdit" v-if="privilege === '1' || privilege === '2'">编辑</el-button>  
         </small>
       </h1>
     </div>
@@ -59,6 +60,7 @@ export default {
       }
     }
     return {
+      privilege: '',
       dialogEditVisible: false,
       ruleForm: {
         label: this.label,
@@ -79,6 +81,10 @@ export default {
     test2 (val) {
       this.$emit('update:nickName', val.label)
     }
+  },
+
+  mounted () {
+    this.privilege = localStorage.getItem('privilege')
   }
 }
 </script>

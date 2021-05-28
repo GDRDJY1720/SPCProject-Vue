@@ -28,7 +28,7 @@
               <i slot="prepend" class="el-icon-lock" />
             </el-input>
           </el-form-item>
-          <el-form-item prop="code">
+          <el-form-item prop="code" v-if="codeFalg >= 2" :error="codeError">
             <el-row :span="24">
               <el-col :span="12">
                 <el-input
@@ -86,6 +86,8 @@ export default {
       }
     };
     return {
+      codeFalg: 0,
+      codeError: '',
       identifyCode: "",
       identifyCodes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
       ruleForm: {
@@ -112,6 +114,8 @@ export default {
     doLogin() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
+          this.ruleForm.usernameErr = null
+          this.ruleForm.passwordErr = null
           this.axios.post("/spc/account/login/", {
             username: this.ruleForm.username,
             password: this.ruleForm.password
@@ -125,17 +129,29 @@ export default {
               localStorage.setItem("c", res.data.data.customer);
               this.$router.push(this.$store.state.nowUrl);
             } else {
-              this.refreshCode();
               if (res.data.code === 1001) {
                 this.ruleForm.usernameErr = res.data.msg;
               } else if (res.data.code === 1002) {
                 this.ruleForm.passwordErr = res.data.msg;
               }
+              this.codeFalg++
+              if (this.codeFalg >= 2) {
+                this.refreshCode();
+              }
+              console.log(this.codeFalg)
             }
           }).catch((err) => {
+            this.codeFalg++
+            if (this.codeFalg >= 2) {
+              this.refreshCode();
+            }
             this.axiosCatch(err);
           })
         } else {
+          this.codeFalg++
+          if (this.codeFalg >= 2) {
+            this.refreshCode();
+          }
           console.log('error submit!!')
           return false
         }

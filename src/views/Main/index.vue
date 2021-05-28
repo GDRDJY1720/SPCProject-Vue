@@ -37,7 +37,7 @@
                 <i class="el-icon-menu"></i>
                 <span slot="title">设备信息</span>
               </el-menu-item>
-              <el-menu-item index="/main/task">
+              <el-menu-item index="/main/task" v-if="privilege === '1'">
                 <i class="el-icon-menu"></i>
                 <span slot="title">设备任务</span>
               </el-menu-item>
@@ -72,6 +72,7 @@ import TweenLite from 'gsap'
 export default {
   data () {
     return {
+      privilege: '',
       asideWidth: 65,
       isCollapse: true
     }
@@ -107,6 +108,10 @@ export default {
         TweenLite.to(this.$data, { duration: 0.5, asideWidth: newValue })
       }
     }
+  },
+
+  mounted () {
+    this.privilege = localStorage.getItem('privilege')
   }
 }
 </script>

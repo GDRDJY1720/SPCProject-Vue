@@ -3,11 +3,19 @@
     <table class="gridtable info-font-16" v-if="data.length">
       <tr>  
         <th>设备编号</th>
-        <td>{{data[0].actual_device_secret}} <el-button slot="reference" size="mini" type="text" @click="handleClickEdit('actual_device_secret')">编辑</el-button></td>
-        <th>网络模块编号</th>
-        <td>{{ data[0].module_secret }} <el-button slot="reference" size="mini" type="text" @click="handleClickEdit('module_secret')">编辑</el-button></td>
-        <th>其他链接信息</th>
         <td>
+          {{data[0].actual_device_secret}}
+          <el-button slot="reference" size="mini" type="text" 
+          @click="handleClickEdit('actual_device_secret')" v-if="privilege === '1' || privilege === '2'">编辑</el-button>
+        </td>
+        <th>网络模块编号</th>
+        <td>
+          {{ data[0].module_secret }} 
+          <el-button slot="reference" size="mini" type="text" 
+          @click="handleClickEdit('module_secret')" v-if="privilege === '1' || privilege === '2'">编辑</el-button>
+        </td>
+        <th>其他链接信息</th>
+        <td v-if="privilege === '1' || privilege === '2'">
           <el-popover
           placement="top-start"
           width="312">
@@ -59,6 +67,7 @@ export default {
 
   data () {
     return {
+      privilege: '',
       dialogEditVisible: false,
       form: {
         name: '',
@@ -108,6 +117,10 @@ export default {
     editData (val) {
       this.data[0][val.ident] = val.label
     }
+  },
+
+  mounted () {
+    this.privilege = localStorage.getItem('privilege')
   }
 }
 </script>

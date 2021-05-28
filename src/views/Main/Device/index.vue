@@ -4,7 +4,8 @@
     <div class="spc-device-tool">
       <el-form :inline="true" :model="formInline" :rules="rules" ref="ruleForm" class="demo-form-inline">
         <el-form-item v-if="privilege">
-          <el-button type="primary" plain @click="isShowDialog = true" style="margin: 0 10px">添加设备</el-button>
+          <el-button type="primary" plain @click="isShowDialog = true" 
+          style="margin: 0 10px" v-if="privilege === '1' || privilege === '2'">添加设备</el-button>
         </el-form-item>
         <el-form-item label="查询类型">
           <el-select v-model="formInline.region" placeholder="查询类型" @change="selectChange">
@@ -85,7 +86,8 @@
         <el-table-column prop="status.last_line" label="最后上线时间" width="165"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
-            <el-button @click="handleClickLock(scope.$index, scope.row)" type="text" size="small">
+            <el-button @click="handleClickLock(scope.$index, scope.row)" 
+            type="text" size="small" v-if="privilege === '1' || privilege === '3'">
               <el-tooltip class="item icon-text" effect="dark" :content="`${scope.row.deviceOnLock ? '解锁': '锁定'}设备`" placement="top">
                 <i class="el-icon-lock" v-if="scope.row.deviceOnLock"></i>
                 <i class="el-icon-unlock" v-else></i>
