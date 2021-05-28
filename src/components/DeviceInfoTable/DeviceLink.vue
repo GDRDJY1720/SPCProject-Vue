@@ -23,7 +23,7 @@
               </tr>
               <tr>
                 <th>产品标识</th>
-                <td>{{ data[0].from_product.productkey }}</td>
+                <td>{{ data[0].fk_product.product_key }}</td>
               </tr>
             </table>
             <el-button slot="reference" size="mini" type="text">查看</el-button>
@@ -71,7 +71,7 @@ export default {
   computed: {
     testCopy () {
       return `{
-  "ProductKey": "${this.data[0].from_product.productkey}",
+  "ProductKey": "${this.data[0].fk_product.product_key}",
   "DeviceName": "${this.data[0].device_name}",
   "DeviceSecret": "${this.data[0].device_secret}"
 }`

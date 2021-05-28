@@ -163,7 +163,6 @@ export default {
     addAxios (data) {
       this.axios.post('/spc/sale/info/', data).then(res => {
         if (res.data.code === 1000) {
-          console.log(this.ruleForm)
           this.$emit('updateData', this.ruleForm)
           this.saleInfoFlag = true
           this.$refs.saleDrawer.hide()
@@ -225,7 +224,7 @@ export default {
       })
     },
     saleDeleteClick () {
-      this.$confirm('确认关闭？')
+      this.$confirm('确认删除该设备的订单信息？')
       .then(_ => {
         this.saleDeleteAxios()
       })
@@ -286,6 +285,7 @@ export default {
         data
       }).then(res => {
         if (res.data.code === 1000) {
+          this.updateFlag = true
           this.$emit('updateData', this.ruleForm)
           this.$refs.saleDrawer.hide()
         } else {

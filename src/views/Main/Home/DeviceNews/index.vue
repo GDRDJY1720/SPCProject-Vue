@@ -8,7 +8,7 @@
         style="height: 100%; width: 100%;"
         :key="devicePieData.length"/>
       </div>
-      <div class="spc-news-info">
+      <div class="spc-news-info" v-if="infoTableFlag">
         <el-table
         :data="tableData"
         height="350"
@@ -65,6 +65,7 @@ export default {
     return {
       loading: true,
       loadMoreFlag: true,
+      infoTableFlag: false,
       loadPage: 2,
       pageSum: 0,
       devicePieData: [],
@@ -176,6 +177,7 @@ export default {
         this.tableData = res.data.data.table
         this.setAlarmChartData(res.data.data.log.alarm)
         this.setRunChartData(res.data.data.log.run)
+        this.infoTableFlag = true
       } else {
         console.log(res)
         this.$message(res.data.msg)

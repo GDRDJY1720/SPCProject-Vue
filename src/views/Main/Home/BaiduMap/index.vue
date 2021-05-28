@@ -19,7 +19,7 @@
     v-if="infoFlag">
         <p><span class="left">设备名称：</span><span class="right">{{infoWindow.info.device_name}}</span></p>
         <p><span class="left">设备备注名称：</span><span class="right">{{infoWindow.info.nick_name}}</span></p>
-        <p><span class="left">设备类型：</span><span class="right">{{infoWindow.info.from_product.productname}}</span></p>
+        <p><span class="left">设备类型：</span><span class="right">{{infoWindow.info.fk_product.product_name}}</span></p>
         <p><span class="left">设备状态：</span><span class="right">{{infoWindow.info.status.status}}</span></p>
         <p><span class="left">最后上线时间：</span><span class="right">{{infoWindow.info.status.last_line}}</span></p>
     </bm-info-window>

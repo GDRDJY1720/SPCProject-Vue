@@ -121,6 +121,8 @@ export default {
               localStorage.setItem("token", res.data.data.token);
               localStorage.setItem("privilege", res.data.data.privilege);
               localStorage.setItem("username", res.data.data.user_name);
+              // 用于识别是否是外来访问，100为内部，其余为外部
+              localStorage.setItem("c", res.data.data.customer);
               this.$router.push(this.$store.state.nowUrl);
             } else {
               this.refreshCode();

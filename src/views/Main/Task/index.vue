@@ -176,6 +176,7 @@ export default {
       }).then(res => {
         if (res.data.code === 1000) {
           this.form.device = res.data.data
+          console.log(this.form)
           this.dialog = true
         } else {
           this.$message.error(res.data.msg)
@@ -273,7 +274,7 @@ export default {
       }).then(res => {
         if (res.data.code === 1000) {
           for (var i = 0; i < res.data.data.length; i++) {
-            this.productArr.push({ label: res.data.data[i].productname, value: res.data.data[i].id })
+            this.productArr.push({ label: res.data.data[i].product_name, value: res.data.data[i].id })
           }
           this.$store.commit('productInfoDataChange', res.data.data)
         } else {
@@ -284,7 +285,7 @@ export default {
       })
     } else if (this.$store.state.productInfoData.length) {
       for (var j in this.$store.state.productInfoData) {
-        this.productArr.push({ label: this.$store.state.productInfoData[j].productname, value: this.$store.state.productInfoData[j].id })
+        this.productArr.push({ label: this.$store.state.productInfoData[j].product_name, value: this.$store.state.productInfoData[j].id })
       }
     }
 

@@ -75,7 +75,7 @@
         <el-table-column type="index" width="50" fixed="left"></el-table-column>
         <el-table-column prop="device_name" label="设备名"></el-table-column>
         <el-table-column prop="nick_name" label="设备备注名称"></el-table-column>
-        <el-table-column prop="from_product.productname" label="所属产品"></el-table-column>
+        <el-table-column prop="fk_product.product_name" label="所属产品"></el-table-column>
         <!-- <el-table-column prop="from_user" label="所属人" width="86"></el-table-column> -->
         <el-table-column prop="status.status" label="设备状态" width="79"></el-table-column>
         <el-table-column prop="status.last_line" label="最后上线时间" width="165"></el-table-column>
@@ -392,7 +392,7 @@ export default {
       this.axiosSend('/spc/product/info/', da, res => {
         if (res.data.code === 1000) {
           for (var i = 0; i < res.data.data.length; i++) {
-            this.productArr.push({ label: res.data.data[i].productname, value: res.data.data[i].id })
+            this.productArr.push({ label: res.data.data[i].product_name, value: res.data.data[i].id })
           }
           this.$store.commit('productInfoDataChange', res.data.data)
         } else {
@@ -401,7 +401,7 @@ export default {
       })
     } else if (this.$store.state.productInfoData.length) {
       for (var j in this.$store.state.productInfoData) {
-        this.productArr.push({ label: this.$store.state.productInfoData[j].productname, value: this.$store.state.productInfoData[j].id })
+        this.productArr.push({ label: this.$store.state.productInfoData[j].product_name, value: this.$store.state.productInfoData[j].id })
       }
     }
 

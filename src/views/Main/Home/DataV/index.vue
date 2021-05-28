@@ -99,7 +99,7 @@ export default {
     setProductNum (data) {
       var tmp = []
       for (const i in data) {
-        tmp.push({ name: data[i].productname, value: data[i].count })
+        tmp.push({ name: data[i].product_name, value: data[i].count })
       }
       return tmp
     },

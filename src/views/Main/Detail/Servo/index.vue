@@ -41,7 +41,7 @@
         </div>
         <div class="spc-drawer-button">
           <el-button @click="cancelForm">取 消</el-button>
-          <el-button type="primary" :disabled="value1.length === 0" @click="getCheckedHis">确 定</el-button>
+          <el-button type="primary" :disabled="value1 === null" @click="getCheckedHis">确 定</el-button>
         </div>
       </el-drawer>
     </div>

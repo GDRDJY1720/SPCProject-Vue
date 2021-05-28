@@ -2,9 +2,9 @@
   <table class="gridtable info-font-16" v-if="data.length">
     <tr>
         <th>所属产品</th>
-        <td>{{ data[0].from_product.productname }}</td>
+        <td>{{ data[0].fk_product.product_name }}</td>
         <th>伺服数量</th>
-        <td>{{ data[0].from_product.product_servo_num }}</td>
+        <td>{{ data[0].fk_product.product_servo_num }}</td>
     </tr>
     <tr>
       <th>设备状态</th>
