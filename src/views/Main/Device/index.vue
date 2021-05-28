@@ -12,6 +12,7 @@
             <el-option label="产品列表" value="productID"></el-option>
             <el-option label="设备编号" value="deviceSecret"></el-option>
             <el-option label="网关编号" value="moduleSecret"></el-option>
+            <el-option label="客户代码" value="customerCode"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item v-if="formInline.region === 'deviceName'" prop="deviceName">
@@ -32,6 +33,9 @@
         </el-form-item>
         <el-form-item v-if="formInline.region === 'moduleSecret'" prop="moduleSecret">
           <el-input v-model="formInline.moduleSecret" placeholder="请输入网关编号"></el-input>
+        </el-form-item>
+        <el-form-item v-if="formInline.region === 'customerCode'" prop="customerCode">
+          <el-input v-model="formInline.customerCode" placeholder="请输入客户代码"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="querySubmit('ruleForm')">查询</el-button>
@@ -134,7 +138,8 @@ export default {
         deviceName: '',
         productID: '',
         deviceSecret: '',
-        moduleSecret: ''
+        moduleSecret: '',
+        customerCode: ''
       },
       rules: {
         deviceName: [
@@ -148,6 +153,9 @@ export default {
         ],
         moduleSecret: [
           { required: true, message: '请输入网关编号', trigger: 'blur' }
+        ],
+        customerCode: [
+          { required: true, message: '请输入客户代码', trigger: 'blur' }
         ]
       }
     }
