@@ -3,7 +3,7 @@
     <el-card class="box-card" >
       <div slot="header" class="clearfix" style="text-align: left">
         <span class="span-title">销售信息</span>
-        <span v-if="privilege === '1' || privilege === '3'">
+        <span v-if="privilege === '1' || privilege === '4'">
           <el-button class="card-header-btn" type="text" v-if="saleInfoFlag" @click="saleDeleteClick">删除</el-button>
           <el-button class="card-header-btn" type="text" v-if="saleInfoFlag" @click="saleUpdateClick">修改</el-button>
           <el-button class="card-header-btn" type="text" v-else @click="drawer = true">添加</el-button>
