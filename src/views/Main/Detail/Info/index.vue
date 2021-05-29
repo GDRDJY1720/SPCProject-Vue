@@ -89,7 +89,6 @@ export default {
         data: this.id
       }
     }).then(res => {
-      console.log(res)
       if (res.data.code === 1000) {
         this.info_data = res.data.data;
         this.isShow = true

@@ -87,7 +87,8 @@ export default {
       console.log('logout')
       localStorage.removeItem('userId')
       localStorage.removeItem('token')
-      localStorage.removeItem('userRight')
+      localStorage.removeItem('privilege')
+      localStorage.removeItem('t')
       this.$router.push('/login')
     },
     menuState () {

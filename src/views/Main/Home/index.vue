@@ -5,10 +5,10 @@
           <el-tab-pane name="0" label="设备概况">
               <router-view v-if="activeName === '0'"/>
           </el-tab-pane>
-          <el-tab-pane name="1" label="设备位置" v-if="privilege">
+          <el-tab-pane name="1" label="设备位置">
               <router-view v-if="activeName === '1'"/>
           </el-tab-pane>
-          <el-tab-pane name="2" label="信息总览" v-if="privilege">
+          <el-tab-pane name="2" label="信息总览">
               <router-view v-if="activeName === '2'"/>
           </el-tab-pane>
           <!-- <el-tab-pane name="3" label="测试页面" v-if="privilege">
@@ -24,7 +24,6 @@ export default {
     return {
       tabPosition: 'left',
       activeName: '0',
-      privilege: true
     }
   },
   watch: {
@@ -58,11 +57,8 @@ export default {
     }
   },
   beforeMount () {
-    if (localStorage.getItem('privilege') === '3') {
-      this.privilege = false
-    }
     const nowUrl = this.$store.state.nowUrl
-    if (nowUrl === '/main/home/news') {
+    if (nowUrl === '/main/home/news' || nowUrl === '/') {
       this.activeName = '0'
     } else if (nowUrl === '/main/home/map') {
       this.activeName = '1'
@@ -74,7 +70,7 @@ export default {
   },
   updated () {
     var nowUrl = this.$store.state.nowUrl
-    if (nowUrl === '/main/home/news') {
+    if (nowUrl === '/main/home/news' || nowUrl === '/') {
       this.activeName = '0'
     } else if (nowUrl === '/main/home/map') {
       this.activeName = '1'

@@ -3,7 +3,7 @@ export default {
   component: () => import('@/views/Main/Home'),
   children: [
     {
-      path: '/main/home/news',
+      path: 'news',
       component: () => import('@/views/Main/Home/DeviceNews')
     },
     {

@@ -191,8 +191,25 @@ export default {
       }
     }
   },
-  mounted () {
-    this.refreshCode()
+
+  beforeRouteEnter(to, from, next) {
+    // 获取本地存储的结束时间
+    var t = localStorage.getItem('t')
+    // 如果结束时间为空的时候，继续访问页面，如果时间不为空，但是当前时间大于了此时间，继续访问
+    // 如果当前时间小于此时间，则直接跳转到主页面
+    if (t === null) {
+      next()
+    } else {
+      var now = new Date()
+      var end = new Date(parseInt(t))
+      console.log(now, end)
+      if (now >= end) {
+        next()
+      } else {
+        next('/')
+      }
+    }
+    // next()
   }
 };
 </script>
