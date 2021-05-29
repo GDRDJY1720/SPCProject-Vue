@@ -88,8 +88,8 @@
           <template slot-scope="scope">
             <el-button @click="handleClickLock(scope.$index, scope.row)" 
             type="text" size="small" v-if="privilege === '1' || privilege === '3'">
-              <el-tooltip class="item icon-text" effect="dark" :content="`${scope.row.deviceOnLock ? '解锁': '锁定'}设备`" placement="top">
-                <i class="el-icon-lock" v-if="scope.row.deviceOnLock"></i>
+              <el-tooltip class="item icon-text" effect="dark" :content="`${scope.row.device_lock ? '解锁': '锁定'}设备`" placement="top">
+                <i class="el-icon-lock" v-if="scope.row.device_lock"></i>
                 <i class="el-icon-unlock" v-else></i>
               </el-tooltip>
             </el-button>
@@ -230,7 +230,7 @@ export default {
       }
     },
     handleClickLock (ind, val) {
-      this.$confirm(`此操作将${val.deviceOnLock ? '解锁': '锁定'}该设备, 是否继续?`, '提示', {
+      this.$confirm(`此操作将${val.device_lock ? '解锁': '锁定'}该设备, 是否继续?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -238,15 +238,15 @@ export default {
         this.axios.post('/spc/device/lock/', {
           token: localStorage.getItem('token'),
           data: val.id,
-          lockFlag: val.deviceOnLock ? 0: 1
+          lockFlag: val.device_lock ? 0: 1
         }).then(res => {
           if (res.data.code === 1000) {
             this.$message({
               type: 'success',
-              message: `${val.deviceOnLock ? '解锁': '锁定'}成功！`
+              message: `${val.device_lock ? '解锁': '锁定'}成功！`
             })
             var tmp = this.deviceTableData
-            tmp[ind].deviceOnLock = !tmp[ind].deviceOnLock
+            tmp[ind].device_lock = !tmp[ind].device_lock
             this.$store.commit('deviceDataChange', tmp)
           } else {
             this.$message(res.data.msg)
@@ -257,7 +257,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: `已取消${val.deviceOnLock ? '解锁': '锁定'}`
+          message: `已取消${val.device_lock ? '解锁': '锁定'}`
         })
       })
     },
