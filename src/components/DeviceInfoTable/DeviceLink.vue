@@ -14,7 +14,7 @@
           <el-button slot="reference" size="mini" type="text" 
           @click="handleClickEdit('module_secret')" v-if="privilege === '1' || privilege === '2'">编辑</el-button>
         </td>
-        <th>其他链接信息</th>
+        <th v-if="privilege === '1' || privilege === '2'">其他链接信息</th>
         <td v-if="privilege === '1' || privilege === '2'">
           <el-popover
           placement="top-start"
