@@ -14,6 +14,12 @@
           <el-button slot="reference" size="mini" type="text" 
           @click="handleClickEdit('module_secret')" v-if="privilege === '1' || privilege === '2'">编辑</el-button>
         </td>
+        <th>触摸屏S/N码</th>
+        <td>
+          {{ data[0].hmi_secret }} 
+          <el-button slot="reference" size="mini" type="text" 
+          @click="handleClickEdit('hmi_secret')" v-if="privilege === '1' || privilege === '2'">编辑</el-button>
+        </td>
         <th v-if="privilege === '1' || privilege === '2'">其他链接信息</th>
         <td v-if="privilege === '1' || privilege === '2'">
           <el-popover
@@ -107,6 +113,12 @@ export default {
           this.form.name = '网络模块编号'
           this.form.label = this.data[0].module_secret
           this.form.oldLabel = this.data[0].module_secret
+          break
+        }
+        case 'hmi_secret': {
+          this.form.name = '触摸屏S/N码'
+          this.form.label = this.data[0].hmi_secret
+          this.form.oldLabel = this.data[0].hmi_secret
           break
         }
         default: {
