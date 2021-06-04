@@ -103,5 +103,12 @@ module.exports = {
         changeOrigin: true
       }
     }
+	// proxy: {
+	// 	'/spc': {
+	// 	  target: 'http://192.168.1.228:8000',
+	// 	  ws: true,
+	// 	  changeOrigin: true
+	// 	}
+	//   }
   }
 }

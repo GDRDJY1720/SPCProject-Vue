@@ -8,7 +8,7 @@
           <el-button slot="reference" size="mini" type="text" 
           @click="handleClickEdit('actual_device_secret')" v-if="privilege === '1' || privilege === '2'">编辑</el-button>
         </td>
-        <th>网络模块编号</th>
+        <th>网关编号</th>
         <td>
           {{ data[0].module_secret }} 
           <el-button slot="reference" size="mini" type="text" 

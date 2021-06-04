@@ -70,7 +70,7 @@
               :data="saleInfoData"
               highlight-current-row
               @current-change="handleCurrentChange"
-              v-if="quertSaleInfoFlag"
+              v-if="quertSaleInfoFlag && ruleForm.resource === '添加已有订单'"
               style="width: 100%; font-size: 12px; margin-left: 8px;">
               <el-table-column property="sell_code" label="订单号" width="120"></el-table-column>
               <el-table-column property="sell_time" label="销售时间" width="150"></el-table-column>
@@ -243,7 +243,16 @@ export default {
         }
       }).then(res => {
         if (res.data.code === 1000) {
+          this.updateFlag = true
           this.saleInfoFlag = false
+          this.quertSaleInfoFlag = false
+          this.ruleForm = {
+            resource: '添加新订单',
+            customer_code: '',
+            sell_time: '',
+            sell_code: '',
+            sell_site: ''
+          }
         } else {
           this.$message.error(res.data.msg)
         }
