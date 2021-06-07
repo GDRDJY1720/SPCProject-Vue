@@ -13,6 +13,8 @@
             <tr>
               <th>客户代码</th>
               <td>{{ data.customer_code }}</td>
+              <th>公司名称</th>
+              <td>{{ data.company_name }}</td>
               <th>销售订单号</th>
               <td>{{ data.sell_code }}</td>
               <th>销售时间</th>
@@ -44,6 +46,10 @@
               <el-input v-model="ruleForm.customer_code" autocomplete="off"></el-input>
             </el-form-item>
 
+            <el-form-item label="公司名称" :label-width="labelWidth" prop="company_name" v-if="ruleForm.resource === '添加新订单'">
+              <el-input v-model="ruleForm.company_name" autocomplete="off"></el-input>
+            </el-form-item>
+
             <el-form-item label="销售订单号" 
             :label-width="labelWidth" 
             prop="sell_code" 
@@ -72,6 +78,7 @@
               @current-change="handleCurrentChange"
               v-if="quertSaleInfoFlag && ruleForm.resource === '添加已有订单'"
               style="width: 100%; font-size: 12px; margin-left: 8px;">
+              <el-table-column property="company_name" label="公司名称" width="150"></el-table-column>
               <el-table-column property="sell_code" label="订单号" width="120"></el-table-column>
               <el-table-column property="sell_time" label="销售时间" width="150"></el-table-column>
               <el-table-column property="sell_site" label="销售地点" min-width="120"></el-table-column>
@@ -109,6 +116,7 @@ export default {
       labelWidth: '120px',
       ruleForm: {
         resource: '添加新订单',
+        company_name: '',
         customer_code: '',
         sell_time: '',
         sell_code: '',
@@ -152,6 +160,7 @@ export default {
             token: localStorage.getItem('token'),
             deviceId: this.id,
             customer_code: this.ruleForm.customer_code,
+            company_name: this.ruleForm.company_name,
             sell_time: this.ruleForm.sell_time.getTime(),
             sell_code: this.ruleForm.sell_code,
             sell_site: this.ruleForm.sell_site
@@ -249,6 +258,7 @@ export default {
           this.ruleForm = {
             resource: '添加新订单',
             customer_code: '',
+            company_name: '',
             sell_time: '',
             sell_code: '',
             sell_site: ''
@@ -278,6 +288,7 @@ export default {
           var data = {
             token: localStorage.getItem('token'),
             customer_code: this.ruleForm.customer_code,
+            company_name: this.ruleForm.company_name,
             sell_time: tmp_time,
             sell_code: this.ruleForm.sell_code,
             sell_site: this.ruleForm.sell_site

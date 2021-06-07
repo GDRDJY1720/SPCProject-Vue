@@ -8,11 +8,17 @@
           <el-button slot="reference" size="mini" type="text" 
           @click="handleClickEdit('actual_device_secret')" v-if="privilege === '1' || privilege === '2'">编辑</el-button>
         </td>
-        <th>网关编号</th>
+        <th>{{ data[0].fk_product.id == 16 ? '网关编号-锯切段': '网关编号' }}</th>
         <td>
           {{ data[0].module_secret }} 
           <el-button slot="reference" size="mini" type="text" 
           @click="handleClickEdit('module_secret')" v-if="privilege === '1' || privilege === '2'">编辑</el-button>
+        </td>
+        <th v-if="data[0].fk_product.id == 16">网关编号-套丝段</th>
+        <td v-if="data[0].fk_product.id == 16">
+          {{ data[0].module_secret_two }} 
+          <el-button slot="reference" size="mini" type="text" 
+          @click="handleClickEdit('module_secret_two')" v-if="privilege === '1' || privilege === '2'">编辑</el-button>
         </td>
         <th>触摸屏S/N码</th>
         <td>
@@ -110,7 +116,7 @@ export default {
           break
         }
         case 'module_secret': {
-          this.form.name = '网络模块编号'
+          this.form.name = this.data[0].fk_product.id == 16 ? '网关编号-锯切段': '网关编号'
           this.form.label = this.data[0].module_secret
           this.form.oldLabel = this.data[0].module_secret
           break
@@ -119,6 +125,12 @@ export default {
           this.form.name = '触摸屏S/N码'
           this.form.label = this.data[0].hmi_secret
           this.form.oldLabel = this.data[0].hmi_secret
+          break
+        }
+        case 'module_secret_two': {
+          this.form.name = '网关编号-套丝段'
+          this.form.label = this.data[0].module_secret_two
+          this.form.oldLabel = this.data[0].module_secret_two
           break
         }
         default: {
