@@ -8,7 +8,7 @@
           <div slot="header" class="clearfix">
             <span class="span-title">基础信息</span>
           </div>
-          <device-info :data="info_data"/>
+          <device-info :data="info_data" :id="Number(id)"/>
         </el-card>
       </div>
 

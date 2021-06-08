@@ -288,7 +288,7 @@ export default {
           var data = {
             token: localStorage.getItem('token'),
             customer_code: this.ruleForm.customer_code,
-            company_name: this.ruleForm.company_name,
+            company_name: this.rulGeForm.company_name,
             sell_time: tmp_time,
             sell_code: this.ruleForm.sell_code,
             sell_site: this.ruleForm.sell_site
