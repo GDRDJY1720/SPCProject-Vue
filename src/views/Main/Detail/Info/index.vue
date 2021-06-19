@@ -61,7 +61,7 @@ export default {
     updateSaleData (val) {
       var tmpData = val;
       if (typeof tmpData.sell_time !== 'string')
-        tmpData.sell_time = this.Moment(val.sell_time).format("YYYY-MM-DD HH:mm:ss");
+        tmpData.sell_time = this.Moment(val.sell_time).format("YYYY-MM-DD");
       this.info_data[0].fk_sales = tmpData
     }
     // createQRClick () {

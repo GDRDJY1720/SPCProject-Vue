@@ -2,7 +2,7 @@
   <div>
     <table class="gridtable info-font-16" v-if="data.length">
       <tr>
-          <th>产品名称</th>
+          <th>产品类型</th>
           <td>
             {{ data[0].device_product_name }}
             <el-button slot="reference" size="mini" type="text" 

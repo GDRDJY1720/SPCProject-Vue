@@ -60,10 +60,16 @@
             prop="sell_time" v-if="ruleForm.resource === '添加新订单'">
               <el-date-picker
                 v-model="ruleForm.sell_time"
+                type="date"
+                placeholder="选择日期"
+                style="width: 100%">
+              </el-date-picker>
+              <!-- <el-date-picker
+                v-model="ruleForm.sell_time"
                 type="datetime"
                 placeholder="选择日期时间"
                 style="width: 100%">
-              </el-date-picker>
+              </el-date-picker> -->
             </el-form-item>
             <el-form-item label="销售地点" :label-width="labelWidth" 
             prop="sell_site" v-if="ruleForm.resource === '添加新订单'">
@@ -288,7 +294,7 @@ export default {
           var data = {
             token: localStorage.getItem('token'),
             customer_code: this.ruleForm.customer_code,
-            company_name: this.rulGeForm.company_name,
+            company_name: this.ruleForm.company_name,
             sell_time: tmp_time,
             sell_code: this.ruleForm.sell_code,
             sell_site: this.ruleForm.sell_site

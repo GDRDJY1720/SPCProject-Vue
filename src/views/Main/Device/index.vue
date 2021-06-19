@@ -84,15 +84,19 @@
         <!-- <el-table-column prop="from_user" label="所属人" width="86"></el-table-column> -->
         <el-table-column prop="status.status" label="设备状态" width="79"></el-table-column>
         <el-table-column prop="status.last_line" label="最后上线时间" width="165"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="150">
+        <el-table-column label="锁定时间" v-if="privilege === '1' || privilege === '3'" align="center">
           <template slot-scope="scope">
-            <el-button @click="handleClickLock(scope.$index, scope.row)" 
-            type="text" size="small" v-if="privilege === '1' || privilege === '3'">
-              <el-tooltip class="item icon-text" effect="dark" :content="`${scope.row.device_lock ? '解锁': '锁定'}设备`" placement="top">
-                <i class="el-icon-lock" v-if="scope.row.device_lock"></i>
-                <i class="el-icon-unlock" v-else></i>
-              </el-tooltip>
-            </el-button>
+            <span>{{ scope.row.device_date }}</span>
+            <el-button slot="reference" size="mini" type="text" @click="delayTimeChange(scope.$index, scope.row)" v-if="scope.row.device_lock_status">修改</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="设备锁定" width="160" v-if="privilege === '1' || privilege === '3'" align="center">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.device_lock_status" active-text="锁定" inactive-text="解锁" @change="lockSwich(scope.$index, scope.row)"></el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作">
+          <template slot-scope="scope">
             <el-button @click="handleClickView(scope.row)" type="text" size="small">
               <el-tooltip class="item icon-text" effect="dark" content="查看设备详情" placement="top">
                 <i class="el-icon-view"></i>
@@ -100,7 +104,7 @@
             </el-button>
             <el-button @click="handleClickDelete(scope.row)" type="text" size="small" v-if="privilege === '1'">
               <el-tooltip class="item icon-text" effect="dark" content="删除设备" placement="top">
-                <i class="el-icon-delete"></i>
+                <i class="el-icon-delete" style="color: red"></i>
               </el-tooltip>
             </el-button>
           </template>
@@ -114,6 +118,30 @@
       layout="total, prev, pager, next"
       :total="rowCount">
     </el-pagination>
+
+    <!-- 用于设备锁定的对话框 -->
+    <el-dialog title="添加设备" :visible.sync="lockDialog" :show-close="false">
+      <el-form :model="lockForm" :rules="rules" ref="lockForm">
+        <el-form-item label="锁定方式" :label-width="formLabelWidth">
+          <el-radio-group v-model="lockForm.lockType">
+            <el-radio label="立即锁定"></el-radio>
+            <el-radio label="延时锁定"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="锁定时间" :label-width="formLabelWidth" v-if="lockForm.lockType === '延时锁定'" prop="delayDate">
+          <el-date-picker
+            v-model="lockForm.delayDate"
+            type="date"
+            placeholder="选择日期"
+            style="width: 100%">
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="lockCancel">取 消</el-button>
+        <el-button type="primary" @click="lockCertain">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -158,7 +186,17 @@ export default {
         ],
         customerCode: [
           { required: true, message: '请输入客户代码', trigger: 'blur' }
+        ],
+        delayDate: [
+          { required: true, message: '请输入锁机时间', trigger: 'blur' }
         ]
+      },
+      lockDialog: false,
+      lockForm: {
+        editDate: false,
+        ind: NaN,
+        lockType: '立即锁定',
+        delayDate: ''
       }
     }
   },
@@ -229,36 +267,126 @@ export default {
         product: ''
       }
     },
-    handleClickLock (ind, val) {
-      this.$confirm(`此操作将${val.device_lock ? '解锁': '锁定'}该设备, 是否继续?`, '提示', {
+    delayTimeChange (ind, data) {
+      this.lockDialog = true
+      this.lockForm.editDate = true
+      this.lockForm.ind = ind
+      this.lockForm.lockType = '延时锁定'
+      this.lockForm.delayDate = new Date(data.device_date)
+    },
+    lockSwich (ind, data) {
+      if (data.device_lock_status) {
+        this.lockDialog = true
+        this.lockForm.ind = ind
+      } else {
+        this.handleClickLock(ind, true)
+      }
+    },
+    lockCancel () {
+      this.lockDialog = false
+      if (!this.lockForm.editDate) {
+        var tmp = this.deviceTableData
+        tmp[this.lockForm.ind].device_lock_status = false
+        this.$store.commit('deviceDataChange', tmp)
+      }
+    },
+    lockCertain () {
+      if (this.lockForm.lockType === '立即锁定') {
+        this.handleClickLock(this.lockForm.ind, false)
+      } else {
+        this.$refs.lockForm.validate((valid) => {
+          if (valid) {
+            this.$confirm(`设备将于${this.dateFormet(this.lockForm.delayDate, 'yyyy-MM-dd')}锁定, 是否继续?`, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              var data = {
+                token: localStorage.getItem('token'),
+                time: this.lockForm.delayDate.getTime()
+              }
+              if (this.deviceTableData[this.lockForm.ind].status.status === '在线') {
+                this.delayLockAxios('post', data)
+              } else {
+                this.delayLockAxios('put', data)
+              }
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '取消延时锁定'
+              })
+            })
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      }
+    },
+    handleClickLock (ind, lockFlag) {
+      var tmp = this.deviceTableData
+      var flag = typeof lockFlag === 'undefined' ? tmp[ind].device_lock_status: lockFlag
+      this.$confirm(`此操作将${flag ? '解锁': '锁定'}该设备, 是否继续?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.axios.post('/spc/device/lock/', {
-          token: localStorage.getItem('token'),
-          data: val.id,
-          lockFlag: val.device_lock ? 0: 1
-        }).then(res => {
-          if (res.data.code === 1000) {
-            this.$message({
-              type: 'success',
-              message: `${val.device_lock ? '解锁': '锁定'}成功！`
-            })
-            var tmp = this.deviceTableData
-            tmp[ind].device_lock = !tmp[ind].device_lock
-            this.$store.commit('deviceDataChange', tmp)
-          } else {
-            this.$message(res.data.msg)
-          }
-        }).catch(err => {
-          this.axiosErr(err)
-        })
+        this.lockAxios(ind, flag)
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: `已取消${val.device_lock ? '解锁': '锁定'}`
+          message: `已取消${flag ? '解锁': '锁定'}`
         })
+      })
+    },
+    lockAxios (ind, lockFlag) {
+      var tmp = this.deviceTableData
+      var val = tmp[ind]
+      var flag = typeof lockFlag === 'undefined' ? val.device_lock_status: lockFlag
+      this.axios.post('/spc/device/lock/', {
+        token: localStorage.getItem('token'),
+        data: val.id,
+        lockFlag: flag ? 0: 1
+      }).then(res => {
+        this.lockDialog = false
+        if (res.data.code === 1000) {
+          this.$message({
+            type: 'success',
+            message: `${flag ? '解锁': '锁定'}成功！`
+          })
+        } else {
+          tmp[this.lockForm.ind].device_lock_status = !flag
+          this.$store.commit('deviceDataChange', tmp)
+          this.$message(res.data.msg)
+        }
+      }).catch(err => {
+        this.lockDialog = false
+        tmp[this.lockForm.ind].device_lock_status = !flag
+        this.$store.commit('deviceDataChange', tmp)
+        this.axiosErr(err)
+      })
+    },
+    // 用于延时锁定的接口调用
+    delayLockAxios (method, data) {
+      var tmp = this.deviceTableData
+      this.axios({
+        method: method,
+        url: `/spc/device/lock/${tmp[this.lockForm.ind].id}/`,
+        data: data
+      }).then(res => {
+        this.lockDialog = false
+        if (res.data.code === 1000) {
+          this.$message({
+            type: 'success',
+            message: '延时锁定成功'
+          })
+          tmp[this.lockForm.ind].device_date = this.dateFormet(this.lockForm.delayDate, 'yyyy-MM-dd')
+          this.$store.commit('deviceDataChange', tmp)
+        } else {
+          this.$message(res.data.msg)
+        }
+      }).catch(err => {
+        this.axiosErr(err)
       })
     },
     handleClickView (row) {
@@ -295,7 +423,6 @@ export default {
           message: '已取消删除'
         })
       })
-      console.log(row)
     },
     handleClickAddCertain () {
       if (!this.form.productId) {
@@ -389,6 +516,24 @@ export default {
       } else {
         console.info('error', err.message)
       }
+    },
+    dateFormet (date, format) {
+      var o = {
+      "M+" : date.getMonth()+1, //month
+      "d+" : date.getDate(),    //day
+      "h+" : date.getHours(),   //hour
+      "m+" : date.getMinutes(), //minute
+      "s+" : date.getSeconds(), //second
+      "q+" : Math.floor((date.getMonth()+3)/3),  //quarter
+      "S" : date.getMilliseconds() //millisecond
+      }
+      if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+      (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+      for(var k in o)if(new RegExp("("+ k +")").test(format))
+      format = format.replace(RegExp.$1,
+      RegExp.$1.length==1 ? o[k] :
+      ("00"+ o[k]).substr((""+ o[k]).length));
+      return format;
     }
   },
   mounted () {
@@ -426,7 +571,6 @@ export default {
           this.$store.commit('deviceCountChange', res.data.count)
           this.$store.commit('deviceDataFlagChange', true)
         } else {
-          console.log(res)
           this.$message(res.data.msg)
         }
       })
